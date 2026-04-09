@@ -299,4 +299,107 @@ body { min-height: 100vh; }
   padding: 40px 0;
 }
 
+.empty-icon { font-size: 40px; }
+.empty-text { font-size: 13px; font-weight: 400; font-style: italic; font-family: var(--serif); }
+
+/* BOTTOM BAR */
+.log-bottom {
+  border-top: 1px solid var(--border);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.lb-info {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.lb-info strong { color: var(--text); font-weight: 700; }
+
+.wrap-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 12px;
+  color: #111114;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.01em;
+}
+.wrap-btn:hover { opacity: 0.9; transform: scale(0.99); }
+.wrap-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+/* ════════════════════
+   PAGE 2: WRAPPED CARD
+════════════════════ */
+#page-wrapped {
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 48px;
+  overflow-y: auto;
+}
+
+.card-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* HERO CARD */
+.hero-card {
+  border-radius: 24px;
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-bg-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.55;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+}
+
+.hero-date {
+  font-family: var(--serif);
+  font-size: 42px;
+  font-style: italic;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  letter-spacing: -1px;
+}
+
 
