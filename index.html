@@ -811,6 +811,91 @@ function init() {
     row.appendChild(dot);
   });
 
+  // Mood pills
+  document.querySelectorAll(".mood-pill").forEach(p => {
+    p.onclick = () => {
+      document.querySelectorAll(".mood-pill").forEach(x => x.classList.remove("active"));
+      p.classList.add("active");
+      selectedMood = p.dataset.mood;
+    };
+  });
+
+  renderList();
+}
+
+// ── ADD SONG ──
+function addSong() {
+  const title = document.getElementById("inpTitle").value.trim();
+  const artist = document.getElementById("inpArtist").value.trim();
+  if (!title) { document.getElementById("inpTitle").focus(); return; }
+
+  songs.push({
+    title,
+    artist: artist || "Unknown artist",
+    mood: selectedMood,
+    color: selectedColor,
+    id: Date.now()
+  });
+
+  document.getElementById("inpTitle").value = "";
+  document.getElementById("inpArtist").value = "";
+  renderList();
+}
+
+// ── RENDER LIST ──
+function renderList() {
+  const list = document.getElementById("songList");
+  const count = document.getElementById("songCount");
+  const btn = document.getElementById("wrapBtn");
+
+  count.textContent = `${songs.length} song${songs.length !== 1 ? "s" : ""} today`;
+  btn.disabled = songs.length < 3;
+
+  if (songs.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎵</div><div class="empty-text">songs you've played today will appear here</div></div>`;
+    return;
+  }
+
+  list.innerHTML = songs.map(s => `
+    <div class="song-item">
+      <div class="song-color-blob" style="background:${s.color.hex}22">${s.color.emoji}</div>
+      <div class="song-info">
+        <div class="song-title">${esc(s.title)}</div>
+        <div class="song-artist">${esc(s.artist)}</div>
+      </div>
+      <div class="song-mood-tag" style="background:${MOOD_COLORS[s.mood]}22;color:${MOOD_COLORS[s.mood]}">${s.mood}</div>
+      <button class="song-delete" onclick="deleteSong(${s.id})">×</button>
+    </div>
+  `).join("");
+}
+
+function deleteSong(id) {
+  songs = songs.filter(s => s.id !== id);
+  renderList();
+}
+
+function clearAll() {
+  if (songs.length === 0) return;
+  songs = [];
+  renderList();
+}
+
+// ── SHOW WRAPPED ──
+function showWrapped() {
+  if (songs.length < 3) return;
+
+  // Hero blobs from song colors
+  const blobs = document.getElementById("heroBgBlobs");
+  const uniqueColors = [...new Set(songs.map(s => s.color.hex))].slice(0, 3);
+  blobs.innerHTML = uniqueColors.map((c, i) => {
+    const positions = [
+      "top:-60px;left:-60px;width:280px;height:280px;",
+      "bottom:-40px;right:-40px;width:240px;height:240px;",
+      "top:40%;left:40%;width:200px;height:200px;"
+    ];
+    return `<div class="blob" style="${positions[i]}background:${c};"></div>`;
+  }).join("");
+
 
 
 
