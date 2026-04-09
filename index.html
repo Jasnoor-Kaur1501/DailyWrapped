@@ -99,3 +99,102 @@ body { min-height: 100vh; }
   margin-bottom: 20px;
 }
 
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 7px;
+  display: block;
+  letter-spacing: 0.04em;
+}
+
+.inp {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 400;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.inp:focus { border-color: var(--accent); }
+.inp::placeholder { color: var(--dim); }
+
+/* MOOD PILLS */
+.mood-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mood-pill {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.mood-pill.active {
+  background: var(--accent);
+  color: #111114;
+  border-color: var(--accent);
+}
+
+/* COLOR PICKER ROW */
+.color-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.color-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.color-dot:hover { transform: scale(1.15); }
+.color-dot.active { border-color: var(--text); transform: scale(1.1); }
+
+.add-btn {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: 14px;
+  color: #111114;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 800;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.18s;
+  margin-top: 8px;
+  letter-spacing: 0.01em;
+}
+.add-btn:hover { opacity: 0.88; transform: scale(0.99); }
+.add-btn:active { transform: scale(0.97); }
+
+/* RIGHT — song list */
+.log-list-wrap {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+
