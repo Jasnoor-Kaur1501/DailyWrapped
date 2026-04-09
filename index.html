@@ -590,6 +590,109 @@ body { min-height: 100vh; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* ACTION BUTTONS */
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.ca-btn {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+.ca-btn:hover { background: var(--surface2); }
+
+.ca-btn-grad {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #111114;
+  border: none;
+}
+.ca-btn-grad:hover { opacity: 0.9; }
+
+/* MOBILE */
+@media (max-width: 700px) {
+  .log-body { grid-template-columns: 1fr; }
+  .log-form-wrap { border-right: none; border-bottom: 1px solid var(--border); }
+  .log-form-wrap { padding: 24px 20px; }
+  .log-list-wrap { padding: 24px 20px; }
+  #page-wrapped { padding: 24px 16px 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ PAGE 1: LOG ════ -->
+<div class="page active" id="page-log">
+  <div class="top-bar">
+    <div class="logo">Daily<em>Wrapped</em></div>
+    <div class="top-date" id="topDate"></div>
+  </div>
+
+  <div class="log-body">
+    <!-- FORM -->
+    <div class="log-form-wrap">
+      <div class="section-label">Add a song</div>
+
+      <div class="input-group">
+        <label class="input-label">Song title</label>
+        <input class="inp" type="text" id="inpTitle" placeholder="e.g. Espresso" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Artist</label>
+        <input class="inp" type="text" id="inpArtist" placeholder="e.g. Sabrina Carpenter" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Mood</label>
+        <div class="mood-pills">
+          <button class="mood-pill active" data-mood="🔥 Hyped">🔥 Hyped</button>
+          <button class="mood-pill" data-mood="💜 Emotional">💜 Emotional</button>
+          <button class="mood-pill" data-mood="✨ Vibing">✨ Vibing</button>
+          <button class="mood-pill" data-mood="😮‍💨 Chill">😮‍💨 Chill</button>
+          <button class="mood-pill" data-mood="💔 Sad">💔 Sad</button>
+          <button class="mood-pill" data-mood="🌙 Midnight">🌙 Midnight</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Color</label>
+        <div class="color-row" id="colorRow"></div>
+      </div>
+
+      <button class="add-btn" onclick="addSong()">+ Add song</button>
+    </div>
+
+    <!-- LIST -->
+    <div class="log-list-wrap">
+      <div class="list-header">
+        <div class="song-count" id="songCount">0 songs today</div>
+        <button class="clear-btn" onclick="clearAll()">clear all</button>
+      </div>
+      <div class="song-list" id="songList">
+        <div class="empty-state">
+          <div class="empty-icon">🎵</div>
+          <div class="empty-text">songs you've played today will appear here</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="log-bottom">
+    <div class="lb-info">add at least <strong>3 songs</strong> to generate your wrap</div>
+    <button class="wrap-btn" id="wrapBtn" onclick="showWrapped()" disabled>Generate wrap →</button>
+  </div>
+</div>
+
 
 
 
