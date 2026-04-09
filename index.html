@@ -896,6 +896,95 @@ function showWrapped() {
     return `<div class="blob" style="${positions[i]}background:${c};"></div>`;
   }).join("");
 
+  // Hero content
+  document.getElementById("heroCount").textContent = `${songs.length} track${songs.length !== 1 ? "s" : ""} logged`;
+  document.getElementById("heroTopTitle").textContent = songs[0].title;
+  document.getElementById("heroTopArtist").textContent = songs[0].artist;
 
+  // Stats
+  document.getElementById("statSongs").textContent = songs.length;
 
+  // Top mood
+  const moodCounts = {};
+  songs.forEach(s => moodCounts[s.mood] = (moodCounts[s.mood] || 0) + 1);
+  const topMood = Object.entries(moodCounts).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById("statMood").textContent = topMood[0].split(" ")[0];
+  document.getElementById("statMoodSub").textContent = topMood[0].split(" ").slice(1).join(" ").toLowerCase();
 
+  // Unique artists
+  const artists = new Set(songs.map(s => s.artist.toLowerCase()));
+  document.getElementById("statArtists").textContent = artists.size;
+
+  // Vibe rating
+  const vibe = [...VIBE_RATINGS].reverse().find(v => songs.length >= v.min) || VIBE_RATINGS[0];
+  document.getElementById("statVibe").textContent = vibe.label;
+  document.getElementById("statVibeSub").textContent = vibe.sub;
+
+  // Mood breakdown bars
+  const total = songs.length;
+  const breakdown = document.getElementById("moodBreakdown");
+  breakdown.innerHTML = Object.entries(moodCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([mood, count]) => `
+      <div class="mood-bar-item">
+        <div class="mbi-label">${mood}</div>
+        <div class="mbi-track">
+          <div class="mbi-fill" style="background:${MOOD_COLORS[mood]};width:${Math.round((count/total)*100)}%"></div>
+        </div>
+        <div class="mbi-count">${count}</div>
+      </div>
+    `).join("");
+
+  // Mini song list
+  const mini = document.getElementById("miniSongList");
+  mini.innerHTML = songs.map((s, i) => `
+    <div class="mini-song">
+      <div class="mini-num">${i + 1}</div>
+      <div class="mini-blob" style="background:${s.color.hex}22">${s.color.emoji}</div>
+      <div class="mini-info">
+        <div class="mini-title">${esc(s.title)}</div>
+        <div class="mini-artist">${esc(s.artist)}</div>
+      </div>
+    </div>
+  `).join("");
+
+  showPage("page-wrapped");
+}
+
+function showLog() { showPage("page-log"); }
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function copyWrap() {
+  const date = document.getElementById("heroDate").textContent;
+  const list = songs.map((s, i) => `${i+1}. ${s.title} — ${s.artist} ${s.mood}`).join("\n");
+  const moodCounts = {};
+  songs.forEach(s => moodCounts[s.mood] = (moodCounts[s.mood] || 0) + 1);
+  const topMood = Object.entries(moodCounts).sort((a,b)=>b[1]-a[1])[0][0];
+  const text = `🎵 My DailyWrapped — ${date}\n\n${songs.length} tracks · Top mood: ${topMood}\n\n${list}\n\nMake yours → DailyWrapped`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(".ca-btn-grad");
+    btn.textContent = "copied ✓";
+    setTimeout(() => btn.textContent = "copy wrap ✦", 2000);
+  });
+}
+
+function esc(str) {
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// Enter key on inputs
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && document.getElementById("page-log").classList.contains("active")) {
+    addSong();
+  }
+});
+
+init();
+</script>
+</body>
+</html>
