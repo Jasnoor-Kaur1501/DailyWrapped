@@ -692,6 +692,124 @@ body { min-height: 100vh; }
     <button class="wrap-btn" id="wrapBtn" onclick="showWrapped()" disabled>Generate wrap →</button>
   </div>
 </div>
+<!-- ════ PAGE 2: WRAPPED ════ -->
+<div class="page" id="page-wrapped">
+  <div class="card-wrap">
+    <!-- HERO -->
+    <div class="hero-card" id="heroCard">
+      <div class="hero-bg-blobs" id="heroBgBlobs"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Your DailyWrapped</div>
+        <div class="hero-date" id="heroDate"></div>
+        <div class="hero-count" id="heroCount"></div>
+      </div>
+      <div class="hero-top-song">
+        <div class="hts-label">Top song today</div>
+        <div class="hts-title" id="heroTopTitle"></div>
+        <div class="hts-artist" id="heroTopArtist"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-tile">
+        <div class="st-label">Songs played</div>
+        <div class="st-val" id="statSongs">—</div>
+        <div class="st-sub">tracks logged</div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-label">Top mood</div>
+        <div class="st-val" id="statMood">—</div>
+        <div class="st-sub" id="statMoodSub">—</div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-label">Artists</div>
+        <div class="st-val" id="statArtists">—</div>
+        <div class="st-sub">unique artists</div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-label">Vibe rating</div>
+        <div class="st-val" id="statVibe">—</div>
+        <div class="st-sub" id="statVibeSub">—</div>
+      </div>
+    </div>
+
+    <!-- MOOD BREAKDOWN -->
+    <div class="mood-card">
+      <div class="mood-card-label">Mood breakdown</div>
+      <div id="moodBreakdown"></div>
+    </div>
+
+    <!-- SONG LIST -->
+    <div class="songs-card">
+      <div class="songs-card-label">Today's tracklist</div>
+      <div id="miniSongList"></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="card-actions">
+      <button class="ca-btn" onclick="showLog()">← back</button>
+      <button class="ca-btn ca-btn-grad" onclick="copyWrap()">copy wrap ✦</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const COLORS = [
+  { hex: "#c084fc", emoji: "🟣" },
+  { hex: "#fb923c", emoji: "🟠" },
+  { hex: "#34d399", emoji: "🟢" },
+  { hex: "#60a5fa", emoji: "🔵" },
+  { hex: "#f472b6", emoji: "🩷" },
+  { hex: "#fbbf24", emoji: "🟡" },
+  { hex: "#f87171", emoji: "🔴" },
+  { hex: "#a78bfa", emoji: "🪻" },
+];
+
+const MOOD_COLORS = {
+  "🔥 Hyped":     "#fb923c",
+  "💜 Emotional": "#c084fc",
+  "✨ Vibing":    "#fbbf24",
+  "😮‍💨 Chill":   "#60a5fa",
+  "💔 Sad":       "#f472b6",
+  "🌙 Midnight":  "#a78bfa",
+};
+
+const VIBE_RATINGS = [
+  { min: 0, label: "🫥", sub: "suspiciously quiet" },
+  { min: 3, label: "🌱", sub: "warming up" },
+  { min: 6, label: "🔥", sub: "on one today" },
+  { min: 10, label: "🌀", sub: "unhinged (affectionate)" },
+  { min: 15, label: "👑", sub: "chronically online" },
+];
+
+let songs = [];
+let selectedMood = "🔥 Hyped";
+let selectedColor = COLORS[0];
+
+// ── INIT ──
+function init() {
+  // Date
+  const now = new Date();
+  const opts = { weekday: "long", month: "long", day: "numeric" };
+  const dateStr = now.toLocaleDateString("en-US", opts);
+  document.getElementById("topDate").textContent = dateStr;
+  document.getElementById("heroDate").textContent = now.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
+  // Color dots
+  const row = document.getElementById("colorRow");
+  COLORS.forEach((c, i) => {
+    const dot = document.createElement("div");
+    dot.className = "color-dot" + (i === 0 ? " active" : "");
+    dot.style.background = c.hex;
+    dot.onclick = () => {
+      document.querySelectorAll(".color-dot").forEach(d => d.classList.remove("active"));
+      dot.classList.add("active");
+      selectedColor = c;
+    };
+    row.appendChild(dot);
+  });
 
 
 
